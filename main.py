@@ -25,6 +25,9 @@ def get_channel_list(params):
 # チャンネルのメッセージ履歴を取得、絵文字の使用回数を計測
 # --------------------------------------------
 def count_emoji(channels, param):
+    # 絵文字を格納
+    emojis = {}
+
     for channel in channels:
         params.update(count=1000, channel=channel)
 
@@ -34,9 +37,6 @@ def count_emoji(channels, param):
         # メッセージがない時
         if "messages" in json == False:
             continue
-
-        # 絵文字を格納
-        emojis = {}
 
         # チャンネルのメッセージ分（MAX1000）
         for message in json["messages"]:
@@ -124,7 +124,7 @@ if __name__ == '__main__':
             emojis = count_emoji(channel, params)
         elif sys.argv[1] == 'custom':   # カスタム絵文字のランキング
             custom_emojis = get_custom_emoji(params)
-            emojis = count_custom_emoji(channel, emojis, params)
+            emojis = count_custom_emoji(channel, custom_emojis, params)
         else:
             print('$ python main.py <all or cumtom>')
             quit()
